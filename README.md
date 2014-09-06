@@ -73,7 +73,7 @@ lrrr add util [-t template] [util_name] [app_dest]
 ```
 
 ### Initializers
-Command line only wizards for creating resources such as LazoJS [`conf.json`](https://github.com/walmartlabs/lazojs/wiki/Configuration#confjson).
+Command line only wizards for creating resources such as LazoJS [`conf.json`](https://github.com/walmartlabs/lazojs/wiki/Configuration#confjson). Initializers could also be used for adding resources that require configuration, e.g., `lrrr add model -t jstrimpel/lrr-stuff/model:thing`, could launch a configuration wizard.
 
 * TBD
 
