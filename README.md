@@ -5,7 +5,7 @@ Open for discussion. Working document. This is an application generator NOT anot
 > Ruler of the planet Omicron Persei 8!
 
 ### Require
-Lrrr can be included by other node modules. For instance LazoJS will include Lrrr and allow for default
+Lrrr can be included by other node modules. For instance LazoJS could include Lrrr and allow for default
 resource creation, e.g.,
 
 ```shell
