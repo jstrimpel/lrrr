@@ -15,8 +15,6 @@ lazo create app
 ###  API
 Lrrr consumes templates. A default set of templates will ship with Lrrr.
 
-> High level API. Details will be fleshed out after the general concept has been vetted.
-
 #### Create Application
 Creates a new LazoJS application.
 
