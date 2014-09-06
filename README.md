@@ -109,7 +109,7 @@ Templates are resolved using `protocol://resource`.
 * `http(s)://location`
 
 ### Roadmap
-The feature described in this document will be released as follows.
+The features described in this document will be released as follows.
 
 > This is a working roadmap.
 
