@@ -79,7 +79,7 @@ Command line only wizards for creating resources such as LazoJS [`conf.json`](ht
 Templates should contain a `package.json`. An optional `lrrr.json` file can be used to specify creation and add instructions. The template contents should be contained in a `template` directory at the root of the template source.
 
 ### lrrr.json
-`lrrr.json` is an optional temaple source file that contains intructions for lrrr to follow when generating resources from the template.
+`lrrr.json` is an optional template source file that contains intructions for lrrr to follow when generating resources from the template.
 
 ```javascript
 {
