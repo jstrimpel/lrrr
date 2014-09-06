@@ -26,19 +26,30 @@ lrrr create app [dest]
 ```
 
 #### Add Component
-This will create a new LazoJS component. `target` is the application directory. The component will be created in the application
-`components` directory.
+This will create a new LazoJS component. `dest` is the application directory. The component will be created in the application `components` directory.
 
 ```shell
-lrrr add component -n=cmp_name [-r=owner/repo-name] [-c][-v] [dest]
+# -c controller if one exists in the template
+# -v view if one exists in the template
+# -c controller if one exists in the template
+# -r repo which contains component template
+lrrr add component [-c][-v][-r owner/repo-name] cmp_name [dest]
 ```
 
 #### Add Model
-This will create a new LazoJS model or collection. `target` is the application directory. The component will be created in the application
+This will create a new LazoJS model. `dest` is the application directory. The component will be created in the application
 `models` directory.
 
 ```shell
-lrrr add model -n=m_name -t=m|c [-s] [-r=owner/repo-name] [dest]
+lrrr add model [-s][-r owner/repo-name] model_name [app_dest]
+```
+
+#### Add Collection
+This will create a new LazoJS model or collection. `dest` is the application directory. The component will be created in the application
+`models` directory.
+
+```shell
+lrrr add collection [-s][-r owner/repo-name] collection_name [app_dest]
 ```
 
 #### Add Server Utility
@@ -46,7 +57,7 @@ This will create a new LazoJS server. `target` is the application directory. The
 `server` directory or if a path is provided to a component it will be used.
 
 ```shell
-lrrr add util -n=s_name [-s] [-r=owner/repo-name] [dest]
+lrrr add util [-r owner/repo-name] util_name [app_dest]
 ```
 
 ### Template Repo Conventions
