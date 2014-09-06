@@ -22,7 +22,7 @@ the specified resources. A default set of templates will ship with Lrrr.
 This will create a new LazoJS application.
 
 ```shell
-lrrr create app [target]
+lrrr create app [dest]
 ```
 
 #### Add Component
@@ -30,7 +30,7 @@ This will create a new LazoJS component. `target` is the application directory. 
 `components` directory.
 
 ```shell
-lrrr add component -n=cmp_name [-r=owner/repo-name] [-c][-v] [target]
+lrrr add component -n=cmp_name [-r=owner/repo-name] [-c][-v] [dest]
 ```
 
 #### Add Model
@@ -38,7 +38,7 @@ This will create a new LazoJS model or collection. `target` is the application d
 `models` directory.
 
 ```shell
-lrrr add model -n=m_name -t=m|c [-s] [-r=owner/repo-name] [target]
+lrrr add model -n=m_name -t=m|c [-s] [-r=owner/repo-name] [dest]
 ```
 
 #### Add Server Utility
@@ -46,7 +46,7 @@ This will create a new LazoJS server. `target` is the application directory. The
 `server` directory or if a path is provided to a component it will be used.
 
 ```shell
-lrrr add util -n=s_name [-s] [-r=owner/repo-name] [target]
+lrrr add util -n=s_name [-s] [-r=owner/repo-name] [dest]
 ```
 
 ### Template Repo Conventions
