@@ -1,4 +1,4 @@
-## A command line utility for quickly creating LazoJS applications
+## A command line utility for creating LazoJS applications
 
 Open for discussion. Working document. This is an application generator NOT another package manager!
 
