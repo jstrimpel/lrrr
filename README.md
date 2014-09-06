@@ -1,32 +1,31 @@
 ## A command line utility for quickly creating LazoJS applications
 
-Open for discussion. Working document.
+Open for discussion. Working document. This is an application generator NOT another package manager!
 
 > Ruler of the planet Omicron Persei 8!
 
 ### Require
-Lrrr will be able to be included by other node modules. For instance LazoJS will include Lrrr and allow for default
+Lrrr can be included by other node modules. For instance LazoJS will include Lrrr and allow for default
 resource creation, e.g.,
 
 ```shell
 lazo create app
 ```
 
-### Proposed API
-Lrrr will consume templates stored in github repos. These templates will be downloaded as needed and used to create
-the specified resources. A default set of templates will ship with Lrrr.
+###  API
+Lrrr consumes templates. A default set of templates will ship with Lrrr.
 
 > High level API. Details will be fleshed out after the general concept has been vetted.
 
 #### Create Application
-This will create a new LazoJS application.
+Creates a new LazoJS application.
 
 ```shell
 lrrr create app [dest]
 ```
 
 #### Add Component
-This will create a new LazoJS component. `dest` is the application directory. The component will be created in the application `components` directory.
+Creates a new LazoJS component. `dest` is the application directory. The component will be created in the application `components` directory.
 
 ```shell
 # -c controller if one exists in the template
@@ -37,7 +36,7 @@ lrrr add component [-c][-v][-t template] [cmp_name] [dest]
 ```
 
 #### Add Model
-This will create a new LazoJS model. `dest` is the application directory. The component will be created in the application
+Creates a new LazoJS model. `dest` is the application directory. The component will be created in the application
 `models` directory.
 
 ```shell
@@ -47,7 +46,7 @@ lrrr add model [-s][-t template] [model_name] [app_dest]
 ```
 
 #### Add Collection
-This will create a new LazoJS model or collection. `dest` is the application directory. The component will be created in the application
+Creates a new LazoJS model or collection. `dest` is the application directory. The component will be created in the application
 `models` directory.
 
 ```shell
@@ -56,14 +55,27 @@ This will create a new LazoJS model or collection. `dest` is the application dir
 lrrr add collection [-s][-t template] [collection_name] [app_dest]
 ```
 
+#### Add Route
+Creates a new application route.
+
+```shell
+# -l component layout
+# -a component action
+lrrr add route [-l layout][-a action] component
+```
+
 #### Add Server Utility
-This will create a new LazoJS server. `target` is the application directory. The component will be created in the application
-`server` directory or if a path is provided to a component it will be used.
+Creates a new LazoJS server. `target` is the application directory. The component will be created in the application `server` directory or if a path is provided to a component it will be used.
 
 ```shell
 # -t template source
 lrrr add util [-t template] [util_name] [app_dest]
 ```
+
+### Initializers
+Command line only wizards for creating resources such as LazoJS [`conf.json`](https://github.com/walmartlabs/lazojs/wiki/Configuration#confjson).
+
+* TBD
 
 ### Template Conventions
 Templates should contain a `package.json`. An optional `lrrr.json` file can be used to specify creation and add instructions. The template contents should be contained in a `template` directory at the root of the template source.
@@ -101,7 +113,25 @@ Templates are resolved using `protocol://resource`.
 ### Roadmap
 The feature described in this document will be released as follows.
 
+> This is a working roadmap.
+
 #### 0.1.0
 
 * Default template support only
-* Commands: 
+
+#### 0.2.0 
+
+* `file://` support for local templates
+
+#### 0.3.0 
+
+* `git://` support for github.com 
+
+#### 0.4.0 
+
+* `http(s)://` support hosted templates
+* Internal `git://` support
+
+#### 0.5.0 
+
+* Initializers
