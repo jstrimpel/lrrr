@@ -23,10 +23,14 @@
         "url": "https://github.com/jstrimpel/lrrr/issues"
     },
     "private": false,
-    "main": "index",
+    "main": "src/index",
     "bin": {
-        "lrrr": "index.js"
+        "lrrr": "cli.js"
     },
-    "dependencies": {},
+    "dependencies": {
+        "glob": "4.0.5",
+        "lrrr-template": "x.x.x",
+        "commander": "2.3.0"
+    },
     "devDependencies": {}
 }

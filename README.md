@@ -5,8 +5,8 @@ Open for discussion.
 > Ruler of the planet Omicron Persei 8!
 
 ### Require
-Lrrr will be able to be included by other node modules. For instance LazoJS will include Lrrr and allow for default
-resource creation, e.g.,
+Lrrr will be able to be included by other node modules. For instance [LazoJS](https://github.com/walmartlabs/lazojs) will
+include Lrrr and allow for default resource creation, e.g.,
 
 ```shell
 lazo create app
