@@ -1,8 +1,4 @@
-<p>
-  <a title='Build Status' href="https://travis-ci.org/jstrimpel/lrrr">
-    <img src='https://travis-ci.org/jstrimpel/lrrr-template.svg' />
-  </a>
-</p>
+[![Build Status](https://travis-ci.org/jstrimpel/lrrr.svg?branch=master)](https://travis-ci.org/jstrimpel/lrrr)
 
 ## A command line utility for creating LazoJS applications
 
