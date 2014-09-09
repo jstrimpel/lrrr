@@ -1,0 +1,14 @@
+{
+    "app": {
+        "app": {
+            "files": "*"
+        },
+        "components": {
+            "hello": {
+                "files": [
+                    "views/index.hbs"
+                ]
+            }
+        }
+    }
+}

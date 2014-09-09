@@ -27,10 +27,14 @@
     "bin": {
         "lrrr": "cli.js"
     },
+    "scripts": {
+        "postinstall": "node bin/postinstall"
+    },
     "dependencies": {
         "glob": "4.0.5",
         "lrrr-template": "x.x.x",
-        "commander": "2.3.0"
+        "commander": "2.3.0",
+        "fs-extra": "0.11.1"
     },
     "devDependencies": {}
 }

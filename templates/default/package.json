@@ -1,0 +1,33 @@
+{
+  "name": "lrrr-template",
+  "version": "0.0.3",
+  "description": "Default template for lrr",
+  "homepage": "https://github.com/jstrimpel/lrrr-template",
+  "keywords": [
+    "generator",
+    "lazo",
+    "lazojs",
+    "command line",
+    "lrr"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "/blob/master/LICENSE-MIT"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jstrimpel/lrrr-template"
+  },
+  "bugs": {
+    "url": "https://github.com/jstrimpel/lrrr-template/issues"
+  },
+  "private": false,
+  "dependencies": {},
+  "devDependencies": {},
+  "readme": "## Default template for Lrrr",
+  "readmeFilename": "README.md",
+  "_id": "lrrr-template@0.0.3",
+  "_from": "lrrr-template@x.x.x"
+}
