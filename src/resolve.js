@@ -37,7 +37,7 @@ var methods = {
     getAppFiles: function (templatePath, def, callback) {
         var appPath = path.normalize(templatePath + path.sep + 'app');
 
-        this.getResourceFiles(appPath, def, function (err, files) {
+        methods.getResourceFiles(appPath, def, function (err, files) {
             if (err) {
                 return callback(err, null);
             }
@@ -50,17 +50,11 @@ var methods = {
         var resourcesPath = path.normalize(templatePath + path.sep + resourceType);
 
         if (!def) {
-            this.getResourceFiles(resourcesPath, null, function (err, files) {
-                if (err) {
-                    return callback(err, null);
-                }
-
-                callback(null, files);
-            });
+            return callback(null, []);
         } else {
             var count = 0;
             var listed = 0;
-            var self = this;
+            var self = methods;
             var retVal = [];
 
             for (var k in def) {
@@ -73,9 +67,9 @@ var methods = {
                             return callback(err, null);
                         }
 
-                        loaded++;
+                        listed++;
                         retVal = retVal.concat(files);
-                        if (count === loaded) {
+                        if (count === listed) {
                             callback(null, retVal);
                         }
                     });
@@ -85,7 +79,7 @@ var methods = {
     },
 
     appList: function (conf, templatePath, callback) {
-        var self = this;
+        var self = methods;
         var count = 0;
         var list = [];
         var appPath = path.normalize(templatePath + path.sep + 'app');
@@ -97,24 +91,24 @@ var methods = {
             count++;
             list = list.concat(files);
             if (count === 3) {
-                callback(null, files);
+                callback(null, list);
             }
         }
 
         if (!conf) {
-            return dir.files(appPath, function (err, files) {
+            return dir.files(templatePath, function (err, files) {
                 if (err) {
                     return callback(err, null);
                 }
 
-                callback(files);
+                callback(null, files);
             });
         }
 
         conf = conf.app;
-        this.getAppFiles(templatePath, conf.app, onDone);
-        this.getCmpModelFiles(templatePath, 'components', conf.components, onDone);
-        this.getCmpModelFiles(templatePath, 'models', conf.models, onDone);
+        methods.getAppFiles(templatePath, conf.app, onDone);
+        methods.getCmpModelFiles(templatePath, 'components', conf.components, onDone);
+        methods.getCmpModelFiles(templatePath, 'models', conf.models, onDone);
     }
 
 };
@@ -127,18 +121,26 @@ module.exports = {
         callback(null, path.resolve(templates + path.sep + template));
     },
 
-    list: function (type, templatePath) {
-        var templateConfPath = path.resolve(templatePath + path.sep + 'lrrr.json');
+    // TODO: if lrr.json does not exist return bulk copy instructions
+    list: function (type, templatePath, callback) {
+        var templateConfPath = path.normalize(templatePath + path.sep + 'lrrr.json');
         var method = methods[type + 'List'];
+
+        templatePath = path.normalize(templatePath + path.sep + 'template');
 
         if (!method) {
             return callback('Lrrr says, action does not exist!', null);
         }
 
-        fs.exists(templateConfPath, function (err, exists) {
-            if (!exists) {
-                return method(null, templatePath, function (files) {
 
+        fs.exists(templateConfPath, function (exists) {
+            if (!exists) {
+                return method(null, templatePath, function (err, files) {
+                    if (err) {
+                        return callback(err, null);
+                    }
+
+                    callback(null, files);
                 });
             }
 
@@ -153,8 +155,12 @@ module.exports = {
                     return callback('Lrrr says, Error parsing template JSON!', null);
                 }
 
-                method(conf, templatePath, function (files) {
+                method(conf, templatePath, function (err, files) {
+                    if (err) {
+                        return callback(err, null);
+                    }
 
+                    callback(null, files);
                 });
             });
         });
