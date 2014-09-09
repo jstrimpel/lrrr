@@ -36,5 +36,8 @@
         "commander": "2.3.0",
         "fs-extra": "0.11.1"
     },
-    "devDependencies": {}
+    "devDependencies": {
+        "gulp": "3.8.8",
+        "gulp-mocha": "1.0.0"
+    }
 }
