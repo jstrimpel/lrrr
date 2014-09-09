@@ -28,7 +28,8 @@
         "lrrr": "cli.js"
     },
     "scripts": {
-        "postinstall": "node bin/postinstall"
+        "postinstall": "node bin/postinstall",
+        "test": "gulp ci"
     },
     "dependencies": {
         "glob": "4.0.5",

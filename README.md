@@ -1,3 +1,9 @@
+<p>
+  <a title='Build Status' href="https://travis-ci.org/jstrimpel/lrrr">
+    <img src='https://travis-ci.org/jstrimpel/lrrr-template.svg' />
+  </a>
+</p>
+
 ## A command line utility for creating LazoJS applications
 
 Open for discussion. Working document. This is an application generator NOT another package manager!
