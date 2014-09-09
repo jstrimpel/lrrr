@@ -122,6 +122,7 @@ The features described in this document will be released as follows.
 #### 0.2.0
 
 * `file://` support for local templates
+* `lrrr.json` dependencies support
 
 #### 0.3.0
 
