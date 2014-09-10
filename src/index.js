@@ -1,7 +1,10 @@
 var create = require('./create');
+var add = require('./add');
 
 module.exports = {
 
-    create: create
+    create: create,
+
+    add: add
 
 };

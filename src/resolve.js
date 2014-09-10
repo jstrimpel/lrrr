@@ -1,3 +1,6 @@
+// TODO:
+// - need to split template argumnent to extract template name, resource type (e.g., component)
+
 var dir = require('node-dir');
 var glob = require('glob');
 var fse = require('fs-extra');
@@ -95,7 +98,7 @@ var methods = {
             }
         }
 
-        if (!conf) {
+        if (!conf.create) {
             return dir.files(templatePath, function (err, files) {
                 if (err) {
                     return callback(err, null);
@@ -105,43 +108,17 @@ var methods = {
             });
         }
 
-        conf = conf.app;
+        conf = conf.create && conf.create.app;
         methods.getAppFiles(templatePath, conf.app, onDone);
         methods.getCmpModelFiles(templatePath, 'components', conf.components, onDone);
         methods.getCmpModelFiles(templatePath, 'models', conf.models, onDone);
-    }
-
-};
-
-module.exports = {
-
-    // this will be where the pulling down of a remote resource will occur
-    get: function (template, callback) {
-        template = template || 'default';
-        callback(null, path.resolve('templates' + path.sep + template));
     },
 
-    // TODO: if lrr.json does not exist return bulk copy instructions
-    list: function (type, templatePath, callback) {
+    getTemplateConfig: function (templatePath, callback) {
         var templateConfPath = path.normalize(templatePath + path.sep + 'lrrr.json');
-        var method = methods[type + 'List'];
-
-        templatePath = path.normalize(templatePath + path.sep + 'template');
-
-        if (!method) {
-            return callback('Lrrr says, action does not exist!', null);
-        }
-
-
         fs.exists(templateConfPath, function (exists) {
             if (!exists) {
-                return method(null, templatePath, function (err, files) {
-                    if (err) {
-                        return callback(err, null);
-                    }
-
-                    callback(null, files);
-                });
+                callback(null, {});
             }
 
             fs.readFile(templateConfPath, function (err, conf) {
@@ -155,13 +132,114 @@ module.exports = {
                     return callback('Lrrr says, Error parsing template JSON!', null);
                 }
 
-                method(conf, templatePath, function (err, files) {
+                callback(null, conf);
+            });
+
+        });
+    },
+
+    filterCmpFiles: function (files, options) {
+        return files.filter(function (file) {
+            if ((!options || !options.view) && file.indexOf('index.js') !== -1) {
+                return false;
+            }
+            if ((!options || !options.controller) && file.indexOf('controller.js') !== -1) {
+                return false;
+            }
+
+            return true;
+        });
+    },
+
+    filterModelCollFiles: function (files, options) {
+        return files.filter(function (file) {
+            if ((!options || !options.syncher) && file.indexOf('syncher.js') !== -1) {
+                return false;
+            }
+
+            return true;
+        });
+    },
+
+    getResourceGlob: function (templatePath, resourceType) {
+        switch (resourceType) {
+            case 'component':
+                return templatePath + path.sep + resourceType + 's' + path.sep + 'hello' +
+                    path.sep + '**' + path.sep + '*.*';
+            case 'model':
+            case 'collection':
+                return templatePath + path.sep + 'models' + path.sep + resourceType +
+                    path.sep + '**' + path.sep + '*.*';
+        }
+    }
+
+};
+
+module.exports = {
+
+    // TODO: need to define a resolution
+    // if -vc are passed and a component does not have ones defined then it should
+    // default to the deffault component parts
+    getResourceFiles: function (resourceType, templateSrcPath, options, callback) {
+        var templatePath = path.normalize(templateSrcPath + path.sep + 'template');
+        // default component from default template
+        var pattern = methods.getResourceGlob(templatePath, resourceType);
+
+        methods.getTemplateConfig(templateSrcPath, function (err, conf) {
+            if (err) {
+                return callback(err, null);
+            }
+
+            if (!conf.defaults || !conf.defaults.component) {
+                glob(pattern, function (err, files) {
                     if (err) {
                         return callback(err, null);
                     }
 
-                    callback(null, files);
+                    switch (resourceType) {
+                        case 'component':
+                            callback(null, methods.filterCmpFiles(files, options));
+                            break;
+                        case 'model':
+                        case 'collection':
+                            callback(null, methods.filterModelCollFiles(files, options));
+                            break;
+                        default:
+                            callback('Lrrr says, Resource type does not exist!', null);
+                            break;
+
+                    }
                 });
+            }
+        });
+    },
+
+    // this will be where the pulling down of a remote resource will occur
+    get: function (template, callback) {
+        template = template || 'default';
+        callback(null, path.resolve('templates' + path.sep + template));
+    },
+
+    // TODO: if lrr.json does not exist return bulk copy instructions
+    list: function (type, templateSrcPath, callback) {
+        var method = methods[type + 'List'];
+        var templatePath = path.normalize(templateSrcPath + path.sep + 'template');
+
+        if (!method) {
+            return callback('Lrrr says, action does not exist!', null);
+        }
+
+        methods.getTemplateConfig(templateSrcPath, function (err, conf) {
+            if (err) {
+                return callback(err, null);
+            }
+
+            method(conf, templatePath, function (err, files) {
+                if (err) {
+                    return callback(err, null);
+                }
+
+                callback(null, files);
             });
         });
     }

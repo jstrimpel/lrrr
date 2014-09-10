@@ -117,12 +117,15 @@ The features described in this document will be released as follows.
 
 #### 0.1.0
 
-* Default template support only
+* Default template support only; template specification not supported
+* CLI
+* Supported commands: `create app`, `add component`, `add model`, `add collection`
 
 #### 0.2.0
 
 * `file://` support for local templates
 * `lrrr.json` dependencies support
+* Supported commands: 0.1.0 commands + `add util`
 
 #### 0.3.0
 

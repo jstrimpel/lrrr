@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "glob": "4.0.5",
-        "lrrr-template": "x.x.x",
+        "lrrr-template": "git://github.com/jstrimpel/lrrr-template.git",
         "commander": "2.3.0",
         "fs-extra": "0.11.1"
     },

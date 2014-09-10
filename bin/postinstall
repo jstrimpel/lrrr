@@ -2,8 +2,6 @@
 
 var fse = require('fs-extra');
 
-console.log('POST INSTALL');
-
 fse.mkdirs('templates', function (err) {
     fse.copy('node_modules/lrrr-template', 'templates/default', { clobber: true }, function (err) {
 
