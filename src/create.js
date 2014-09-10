@@ -15,6 +15,8 @@ var methods = {
                     if (err) {
                         return callback(err, false);
                     }
+
+                    callback(null, true);
                 });
             });
         });

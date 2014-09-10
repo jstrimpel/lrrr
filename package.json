@@ -39,6 +39,8 @@
     },
     "devDependencies": {
         "gulp": "3.8.8",
-        "gulp-mocha": "1.0.0"
+        "gulp-mocha": "1.0.0",
+        "chai": "1.9.1",
+        "node-dir": "0.1.5"
     }
 }
