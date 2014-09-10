@@ -1,5 +1,7 @@
 // TODO:
 // - need to split template argumnent to extract template name, resource type (e.g., component)
+// - getters for paths, e.g., template dir for a template resource, template resource base path,
+//   get template resource path (component, model, collection)
 
 var dir = require('node-dir');
 var glob = require('glob');
@@ -18,7 +20,11 @@ var methods = {
             var count = 0;
             var retVal = [];
             pattern.forEach(function (matcher) {
-                glob(path.normalize(resourcePath + path.sep + pattern), function (err, files) {
+                glob(path.normalize(resourcePath + path.sep + matcher), function (err, files) {
+                    if (err) {
+                        callback(err, null);
+                    }
+
                     count++;
                     retVal = retVal.concat(files);
                     if (count === len) {
@@ -138,7 +144,7 @@ var methods = {
         });
     },
 
-    filterCmpFiles: function (files, options) {
+    filterCmpFiles: function (files, options, conf) {
         return files.filter(function (file) {
             if ((!options || !options.view) && file.indexOf('index.js') !== -1) {
                 return false;
@@ -151,7 +157,7 @@ var methods = {
         });
     },
 
-    filterModelCollFiles: function (files, options) {
+    filterModelCollFiles: function (files, options, conf) {
         return files.filter(function (file) {
             if ((!options || !options.syncher) && file.indexOf('syncher.js') !== -1) {
                 return false;
@@ -171,6 +177,47 @@ var methods = {
                 return templatePath + path.sep + 'models' + path.sep + resourceType +
                     path.sep + '**' + path.sep + '*.*';
         }
+    },
+
+    findDef: function (resourceName, type, conf) {
+        if (conf.create && conf.create.app &&
+            conf.create.app.components && conf.create.app.components[resourceName]) {
+            return conf.create.app.components[resourceName];
+        }
+        if (conf.add && conf.add.components && conf.add.components[resourceName]) {
+            return conf.add.components[resourceName];
+        }
+
+        // TODO: warn that def does not exist
+        return [];
+    },
+
+    getOptions: function (resourceType, resourcePath, options, callback) {
+        var expected = 0;
+        var count = 0;
+        var retVal = [];
+
+        for (var k in options) {
+            var relativeFilePath = methods.getOptionFilePath(k, resourceType);
+            var absoluteFilePath = path.normalize(resourcePath + path.sep + relativeFilePath);
+            if (fs.existsSync(absoluteFilePath)) {
+                retVal.push(absoluteFilePath);
+            }
+        }
+
+        callback(null, retVal);
+    },
+
+    // TODO: make paths cross platform
+    getOptionFilePath: function (option, resourceType) {
+        switch (option) {
+            case 'view':
+                return 'views/index.js';
+            case 'controller':
+               return 'controller.js';
+            case 'syncher':
+               return resourceType + '/server/syncher.js';
+        }
     }
 
 };
@@ -185,32 +232,55 @@ module.exports = {
         // default component from default template
         var pattern = methods.getResourceGlob(templatePath, resourceType);
 
+
         methods.getTemplateConfig(templateSrcPath, function (err, conf) {
             if (err) {
                 return callback(err, null);
             }
 
-            if (!conf.defaults || !conf.defaults.component) {
-                glob(pattern, function (err, files) {
+            if (conf.defaults && conf.defaults.add && conf.defaults.add[resourceType]) {
+                var def = conf.defaults.add[resourceType].def ? methods.findDef(conf.defaults.add[resourceType].def, resourceType, conf) :
+                    conf.defaults.add[resourceType];
+                var resourcePath = resourceType === 'component' ?
+                    path.normalize(templateSrcPath + path.sep + 'template' + path.sep + 'components' + path.sep + 'hello') :
+                    path.normalize(templateSrcPath + path.sep + 'template' + path.sep + 'models');
+
+                return methods.getResourceFiles(resourcePath, def, function (err, files) {
                     if (err) {
                         return callback(err, null);
                     }
 
-                    switch (resourceType) {
-                        case 'component':
-                            callback(null, methods.filterCmpFiles(files, options));
-                            break;
-                        case 'model':
-                        case 'collection':
-                            callback(null, methods.filterModelCollFiles(files, options));
-                            break;
-                        default:
-                            callback('Lrrr says, Resource type does not exist!', null);
-                            break;
-
+                    if (options) {
+                        methods.getOptions(resourceType, resourcePath, options, function (err, optFiles) {
+                            files = files.concat(optFiles);
+                            callback(null, files);
+                        });
+                    } else {
+                        callback(null, files);
                     }
                 });
             }
+
+            glob(pattern, function (err, files) {
+                if (err) {
+                    return callback(err, null);
+                }
+
+                switch (resourceType) {
+                    case 'component':
+                        callback(null, methods.filterCmpFiles(files, options, conf));
+                        break;
+                    case 'model':
+                    case 'collection':
+                        callback(null, methods.filterModelCollFiles(files, options, conf));
+                        break;
+                    default:
+                        callback('Lrrr says, Resource type does not exist!', null);
+                        break;
+
+                }
+            });
+
         });
     },
 

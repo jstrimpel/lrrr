@@ -8,6 +8,7 @@ var methods = {
             if (err) {
                 return callback(err, null);
             }
+
             resolve.getResourceFiles('component', templatePath, options, function (err, files) {
                 if (err) {
                     return callback(err, null);
