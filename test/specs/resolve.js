@@ -2,7 +2,12 @@ var chai = require('chai');
 var resolve = require('../../src/resolve');
 var path = require('path');
 var utils = require('../utils');
-var lrrrPath = require.resolve('lrrr').split(path.sep).slice(0, -2).join(path.sep);
+
+try {
+    var lrrrPath = require.resolve('lrrr').split(path.sep).slice(0, -2).join(path.sep);
+} catch (e) {
+    var lrrrPath = path.resolve('.');
+}
 
 describe('resolve', function () {
 
