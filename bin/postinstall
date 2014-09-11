@@ -4,6 +4,6 @@ var fse = require('fs-extra');
 
 fse.mkdirs('templates', function (err) {
     fse.copy('node_modules/lrrr-template', 'templates/default', { clobber: true }, function (err) {
-
+        console.log('lrrr: Post intsall complete.');
     });
 });
