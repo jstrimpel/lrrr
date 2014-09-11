@@ -46,6 +46,7 @@ The features described in this document will be released as follows.
 * `file://` support for local templates
 * `lrrr.json` dependencies support
 * Supported commands: 0.1.0 commands + `add util`
+* Finalized `lrrr.json` contract
 
 #### 0.3.0
 
