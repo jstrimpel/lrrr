@@ -286,7 +286,12 @@ module.exports = {
 
     // this will be where the pulling down of a remote resource will occur
     get: function (template, callback) {
-        var lrrrPath = require.resolve('lrrr').split(path.sep).slice(0, -2).join(path.sep);
+        try {
+            var lrrrPath = require.resolve('lrrr').split(path.sep).slice(0, -2).join(path.sep);
+        } catch (e) {
+            var lrrrPath = path.resolve('.');
+        }
+
         template = template || 'default';
         callback(null, path.normalize(lrrrPath + path.sep + 'templates' + path.sep + template));
     },
