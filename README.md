@@ -27,6 +27,9 @@ lazo start my-app
 
 Open browser, [http://localhost:8080/](http://localhost:8080/).
 
+Supported [Commands](https://github.com/jstrimpel/lrrr/wiki/Design-Doc#api): 
+add model|collection|component, create app  
+
 ### Roadmap
 The features described in this document will be released as follows.
 
