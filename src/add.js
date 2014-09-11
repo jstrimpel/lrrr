@@ -22,6 +22,7 @@ var methods = {
                     }
 
                     callback(null, true);
+                    callback(null, 'lrrr: created a '+ resourceType + ', ' + path.resolve(dest || '.'));
                 });
             });
         });
@@ -44,7 +45,7 @@ var methods = {
                         callback(err, null);
                     }
 
-                    callback(null, true);
+                    callback(null, 'lrrr: created a '+ resourceType + ', ' + path.resolve(dest || '.'));
                 });
             });
         });
@@ -57,7 +58,7 @@ methods.collectionAdd = methods.modelAdd;
 module.exports = function (resourceType, template, destName, dest, options, callback) {
     var method = methods[resourceType + 'Add'];
     if (!method) {
-        return callback('Lrrr says, The abilility to add a ' + resourceType + ' is not defined!', null);
+        return callback('lrrr: \'' + type + '\' is not a lrrr \'add\' command resource.', null);
     }
 
     method(resourceType, options, template, destName, dest, callback);

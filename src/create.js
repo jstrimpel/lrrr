@@ -16,7 +16,7 @@ var methods = {
                         return callback(err, false);
                     }
 
-                    callback(null, true);
+                    callback(null, 'lrrr: created an application, ' + path.resolve(dest || '.'));
                 });
             });
         });
@@ -26,7 +26,7 @@ var methods = {
 // lrrr create app [dest]
 module.exports = function (type, template, dest, callback) {
     if (!methods[type]) {
-        return callback('Lrrr says, Action is not defined!', null);
+        return callback('lrrr: \'' + type + '\' is not a lrrr \'create\' command resource.', null);
     }
     methods[type](template, dest, callback);
 };

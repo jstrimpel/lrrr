@@ -35,7 +35,7 @@ describe('add', function () {
         add('component', null, 'foo', 'test/tmp', null, function (err, result) {
             var pattern = dest + path.sep + 'components' + path.sep + 'foo' + path.sep + '**/*.*';
 
-            chai.expect(result).to.be.true;
+            chai.expect(err).to.be.null;
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(1);
                 chai.expect(files[0]).to.be.equal('test/tmp/components/foo/views/index.hbs');
@@ -46,7 +46,7 @@ describe('add', function () {
         add('component', null, 'bar', 'test/tmp', { view: true, controller: true }, function (err, result) {
             var pattern = dest + path.sep + 'components' + path.sep + 'bar' + path.sep + '**/*.*';
 
-            chai.expect(result).to.be.true;
+            chai.expect(err).to.be.null;
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(3);
                 chai.expect(files[0]).to.be.equal('test/tmp/components/bar/controller.js');
@@ -71,7 +71,7 @@ describe('add', function () {
         add('model', null, 'foo', 'test/tmp', null, function (err, result) {
             var pattern = dest + path.sep + 'models' + path.sep + 'foo' + path.sep + '**/*.*';
 
-            chai.expect(result).to.be.true;
+            chai.expect(err).to.be.null;
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(1);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/foo/model.js');
@@ -82,7 +82,7 @@ describe('add', function () {
         add('model', null, 'bar', 'test/tmp', { syncher: true }, function (err, result) {
             var pattern = dest + path.sep + 'models' + path.sep + 'bar' + path.sep + '**/*.*';
 
-            chai.expect(result).to.be.true;
+            chai.expect(err).to.be.null;
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(2);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/bar/model.js');
@@ -106,7 +106,7 @@ describe('add', function () {
         add('collection', null, 'foo', 'test/tmp', null, function (err, result) {
             var pattern = dest + path.sep + 'models' + path.sep + 'foo' + path.sep + '**/*.*';
 
-            chai.expect(result).to.be.true;
+            chai.expect(err).to.be.null;
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(1);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/foo/collection.js');
@@ -117,7 +117,7 @@ describe('add', function () {
         add('collection', null, 'bar', 'test/tmp', { syncher: true }, function (err, result) {
             var pattern = dest + path.sep + 'models' + path.sep + 'bar' + path.sep + '**/*.*';
 
-            chai.expect(result).to.be.true;
+            chai.expect(err).to.be.null;
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(2);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/bar/collection.js');

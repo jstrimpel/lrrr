@@ -286,8 +286,9 @@ module.exports = {
 
     // this will be where the pulling down of a remote resource will occur
     get: function (template, callback) {
+        var lrrrPath = require.resolve('lrrr').split(path.sep).slice(0, -2).join(path.sep);
         template = template || 'default';
-        callback(null, path.resolve('templates' + path.sep + template));
+        callback(null, path.normalize(lrrrPath + path.sep + 'templates' + path.sep + template));
     },
 
     // TODO: if lrr.json does not exist return bulk copy instructions
