@@ -7,6 +7,26 @@ This is an application generator NOT another package manager!
 
 > Ruler of the planet Omicron Persei 8!
 
+### Getting Started
+
+Install lrrr.
+```shell
+npm install -g lrrr
+```
+
+Create a Lazo application.
+```shell
+lrrr create app my-app
+```
+
+Start application. Be sure to install [Lazo](https://github.com/walmartlabs/lazojs) if you haven't 
+done so already, `npm install -g --production lazo`.
+```shell
+lazo start my-app
+```
+
+Open browser, [http://localhost:8080/](http://localhost:8080/).
+
 ### Roadmap
 The features described in this document will be released as follows.
 
