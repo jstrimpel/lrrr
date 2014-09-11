@@ -35,7 +35,7 @@ The features described in this document will be released as follows.
 
 > This is a working roadmap.
 
-#### 0.1.0
+#### 0.1.0 - _*RELEASED*_
 
 * Default template support only; template specification not supported
 * CLI
