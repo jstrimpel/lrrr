@@ -292,7 +292,7 @@ module.exports = {
             var lrrrPath = path.resolve('.');
         }
 
-        template = template || 'default';
+        template = template || 'file/default';
         callback(null, path.normalize(lrrrPath + path.sep + 'templates' + path.sep + template));
     },
 
