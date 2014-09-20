@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 var fse = require('fs-extra');
+var path = require('path');
 
 fse.mkdirs('templates', function (err) {
-    fse.copy('node_modules/lrrr-template', 'templates/file/default', { clobber: true }, function (err) {
+    fse.copy('node_modules' + path.sep + 'lrrr-template', 'templates' + path.sep + 'default', { clobber: true }, function (err) {
         console.log('lrrr: Post install complete.\n');
     });
 });

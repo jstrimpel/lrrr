@@ -2,7 +2,7 @@ var chai = require('chai');
 var resolve = require('../../src/resolve');
 var path = require('path');
 var utils = require('../utils');
-var defaultTemplatePath = path.normalize('templates' + path.sep + 'file' + path.sep + 'default');
+var defaultTemplatePath = path.normalize('templates' + path.sep + 'default');
 
 try {
     var lrrrPath = require.resolve('lrrr').split(path.sep).slice(0, -2).join(path.sep);
