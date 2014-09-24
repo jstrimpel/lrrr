@@ -15,12 +15,25 @@ var lrrr = require('../src/index');
 //     console.log('ACTION RESULT: ' + result);
 // });
 
-var file = require('../src/add/template/file');
+// ADD arguments
+// resourceType, resourceName, template, destName, dest, options, callback
 
-file('file://../../morbo', function (err, status) {
+
+// COMPONENT
+lrrr.add('component', null, null, null, 'tmp', null, function (err, status) {
     if (err) {
         return console.log(err);
     }
 
     console.log(status);
 });
+
+
+// TEMPLATE
+// lrrr.add('template', null, 'file://../../morbo', null, null, null, function (err, status) {
+//     if (err) {
+//         return console.log(err);
+//     }
+
+//     console.log(status);
+// });
