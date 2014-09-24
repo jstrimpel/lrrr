@@ -1,6 +1,8 @@
+// TODO: don't copy to os.tmpDir(); just check for lrrr.json.name
+
 var path = require('path');
 var os = require('os');
-var utils = require('./utils');
+var utils = require('../../utils');
 var file = require('./file');
 var fs = require('fs');
 var fse = require('fs-extra');

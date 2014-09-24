@@ -226,7 +226,7 @@ module.exports = {
 
     // TODO: need to define a resolution
     // if -vc are passed and a component does not have ones defined then it should
-    // default to the deffault component parts
+    // default to the default component parts
     getResourceFiles: function (resourceType, templateSrcPath, options, callback) {
         var templatePath = path.normalize(templateSrcPath + path.sep + 'template');
         // default component from default template
