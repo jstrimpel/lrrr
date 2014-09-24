@@ -7,7 +7,7 @@ module.exports = function (resourceType, resourceName, options, template, destNa
             return callback(err, null);
         }
 
-        resolver.getResourceFiles(resourceType, resourceName, templatePath, function (err, files) {
+        resolver.getResourceFiles(resourceType, resourceName, templatePath, options, function (err, files) {
             if (err) {
                 return callback(err, null);
             }

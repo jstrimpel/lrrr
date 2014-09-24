@@ -110,6 +110,57 @@ var internal = {
                 callback(null, files);
             });
         }
+    },
+
+    getResourceFile: function (resource, resourceType, resourcePath, callback) {
+        var resourceFileNames = {
+            view: 'views/index.js',
+            controller: 'controller.js',
+            syncher: 'server/syncher.js'
+        };
+        var resolvedResourcePath = path.normalize(resourcePath + path.sep + resourceFileNames[resource]);
+
+        fs.exists(resolvedResourcePath, function (exists) {
+            if (exists) {
+                return callback(null, resolvedResourcePath);
+            }
+
+            var defaultTemplatePath = path.normalize(utils.getDefaultTemplatePath() + path.sep + 'template');
+            resolvedResourcePath = path.normalize(defaultTemplatePath + path.sep +
+                utils.getResourceTypeDirName(resourceType) + path.sep +
+                resourceType === 'component' ? 'hello' : resourceType +
+                path.sep + resourceFileNames[resource]);
+
+            return callback(null, resolvedResourcePath);
+        });
+    },
+
+    getOptionalFiles: function (resourceType, resourcePath, options, callback) {
+        var resolved = 0;
+        var expected = Object.keys(options).length;
+        var self = this;
+        var files = [];
+
+        if (!expected) {
+            return callback(null, files);
+        }
+
+        for (var k in options) {
+            (function (k) {
+                self.getResourceFile(k, resourceType, resourcePath, function (err, file) {
+                    if (err) {
+                        return callback(err, null);
+                    }
+
+                    files.push(file);
+                    resolved++;
+
+                    if (resolved === expected) {
+                        callback(null, files);
+                    }
+                });
+            })(k);
+        }
     }
 
 };
@@ -134,15 +185,25 @@ module.exports = {
         return path.resolve(dest + path.sep + utils.getResourceTypeDirName(resourceType) + path.sep + (destName || resourceName));
     },
 
+    getResourcePath: function (file, resourceType) {
+        var resourceTypeDir = utils.getResourceTypeDirName(resourceType);
+        var i = -1;
+
+        file = file.split(path.sep);
+        i = file.indexOf(resourceTypeDir);
+        // +2 because first element is empty & we need the resource name
+        return file.slice(0, (i + 2)).join(path.sep);
+    },
+
     getResourceName: function (file, resourceType) {
         var resourceTypeDir = utils.getResourceTypeDirName(resourceType);
         var relativeFilePath = file.substr((file.indexOf(resourceTypeDir) + resourceTypeDir.length + 1));
         return relativeFilePath.split(path.sep).shift();
     },
 
-    getResourceFiles: function (resourceType, resourceName, templateSrcPath, callback) {
+    getResourceFiles: function (resourceType, resourceName, templateSrcPath, options, callback) {
         var templatePath = path.normalize(templateSrcPath + path.sep + 'template');
-        // default component from default template
+        var self = this;
 
         internal.getTemplateConfig(templateSrcPath, function (err, conf) {
             if (err) {
@@ -159,7 +220,14 @@ module.exports = {
                         return callback(err, null);
                     }
 
-                    callback(null, files);
+                    var resourcePath = self.getResourcePath(files[0], resourceType);
+                    internal.getOptionalFiles(resourceType, resourcePath, options, function (err, optFiles) {
+                        if (err) {
+                            return callback(err, null);
+                        }
+
+                        callback(null, files.concat(optFiles));
+                    });
                 });
             });
         });
