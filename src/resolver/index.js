@@ -62,15 +62,20 @@ var internal = {
         };
     },
 
-    getResourceGlob: function (conf, resourceType, templatePath, callback) {
+    getResourceGlob: function (conf, resourceType, resourceName, templatePath, callback) {
+        var def = (function (conf, resourceType, resourceName) {
+            var resourceMap = conf[utils.getResourceTypeDirName(resourceType)];
+            return resourceMap ? resourceMap[resourceName] : null;
+        })(conf, resourceType, resourceName);
+
         if (resourceType === 'app') {
             if (conf.create && conf.create.app) {
                 callback(null, this.getAppResourceGlob(conf.create.app, templatePath));
             } else {
                 return callback(null, path.normalize(templatePath + path.sep + '*'));
             }
-        } else if (conf.defaults && conf.defaults.add && conf.defaults.add[resourceType]) {
-            var def = this.getResourceDef(resourceType, conf);
+        } else if (def || (conf.defaults && conf.defaults.add && conf.defaults.add[resourceType])) {
+            def = def || this.getResourceDef(resourceType, conf);
             var files = def.files.map(function (pattern) {
                 return path.normalize(templatePath + path.sep + utils.getResourceTypeDirName(resourceType) +
                 (conf.defaults.add[resourceType].def ? (path.sep + conf.defaults.add[resourceType].def) : '') +
@@ -260,12 +265,10 @@ module.exports = {
                 return callback(err, null);
             }
 
-            internal.getResourceGlob(conf, resourceType, templatePath, function (err, pattern) {
+            internal.getResourceGlob(conf, resourceType, resourceName, templatePath, function (err, pattern) {
                 if (err) {
                     return callback(err, null);
                 }
-
-console.log(pattern);
 
                 internal.list(pattern, function (err, files) {
                     if (err) {
