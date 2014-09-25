@@ -33,7 +33,7 @@ module.exports = {
     // nondeterministic
     // TODO: add error handling for the case where there is not at least one of a resource type
     getResourceGlob: function (conf, resourceType, templatePath, callback) {
-        this.getDirs(path.normalize(templatePath + path.sep + this.getResourceTypeDirName(resourceType)), function (err, dirs) {
+        internal.getDirs(path.normalize(templatePath + path.sep + this.getResourceTypeDirName(resourceType)), function (err, dirs) {
             if (err) {
                 return callback(err, null);
             }
