@@ -82,7 +82,8 @@ module.exports = {
     },
 
     getResourceTypeDirName: function (resourceType) {
-        return (resourceType === 'model' || resourceType === 'collection') ? 'models' : 'components';
+        return (resourceType === 'model' || resourceType === 'collection') ? 'models' :
+        (resourceType === 'app' ? 'app' : 'components');
     },
 
     copy: function (resourceType, templateBasePath, files, dest, callback) {

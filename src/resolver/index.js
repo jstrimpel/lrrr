@@ -63,7 +63,13 @@ var internal = {
     },
 
     getResourceGlob: function (conf, resourceType, templatePath, callback) {
-        if (conf.defaults && conf.defaults.add && conf.defaults.add[resourceType]) {
+        if (resourceType === 'app') {
+            if (conf.create && conf.create.app) {
+                callback(null, this.getAppResourceGlob(conf.create.app, templatePath));
+            } else {
+                return callback(null, path.normalize(templatePath + path.sep + '*'));
+            }
+        } else if (conf.defaults && conf.defaults.add && conf.defaults.add[resourceType]) {
             var def = this.getResourceDef(resourceType, conf);
             var files = def.files.map(function (pattern) {
                 return path.normalize(templatePath + path.sep + utils.getResourceTypeDirName(resourceType) +
@@ -81,6 +87,50 @@ var internal = {
                 callback(null, pattern);
             });
         }
+    },
+
+    getAppResourceGlob: function (def, templatePath) {
+        var pattern = [];
+        if (def.app && def.app.files) {
+            pattern = pattern.concat(this.resolveResourceGlobs('app', null, templatePath, def.app.files));
+        }
+        if (def.models) {
+            if (def.models.files) {
+                pattern = pattern.concat(this.resolveResourceGlobs('models', null, templatePath, def.models.files));
+            } else {
+                for (var m in def.models) {
+                    pattern = pattern.concat(this.resolveResourceGlobs('models', m, templatePath, def.models[m].files));
+                }
+            }
+        }
+        if (def.components) {
+            if (def.components.files) {
+                pattern = pattern.concat(this.resolveResourceGlobs('components', null, templatePath, def.components.files));
+            } else {
+                for (var c in def.components) {
+                    pattern = pattern.concat(this.resolveResourceGlobs('components', c, templatePath, def.components[c].files));
+                }
+            }
+        }
+
+        return pattern;
+    },
+
+    resolveResourceGlobs: function (resourceType, resourceName, templatePath, pattern) {
+        var resourceDir = utils.getResourceTypeDirName(resourceType);
+        var resolvedResourcePath = path.normalize(templatePath + path.sep + resourceDir +
+            (resourceName ? path.sep + resourceName : ''));
+        var patterns = [];
+
+        if (Array.isArray(pattern)) {
+            pattern.forEach(function (p) {
+                patterns.push(path.normalize(resolvedResourcePath + path.sep + p));
+            });
+        } else {
+            patterns.push(path.normalize(resolvedResourcePath + path.sep + pattern));
+        }
+
+        return patterns;
     },
 
     list: function (pattern, callback) {
@@ -137,7 +187,7 @@ var internal = {
 
     getOptionalFiles: function (resourceType, resourcePath, options, callback) {
         var resolved = 0;
-        var expected = Object.keys(options).length;
+        var expected = options ? Object.keys(options).length : 0;
         var self = this;
         var files = [];
 
@@ -214,6 +264,8 @@ module.exports = {
                 if (err) {
                     return callback(err, null);
                 }
+
+console.log(pattern);
 
                 internal.list(pattern, function (err, files) {
                     if (err) {

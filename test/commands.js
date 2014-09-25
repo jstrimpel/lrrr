@@ -1,17 +1,16 @@
 var lrrr = require('../src/index');
 
-
 // #### ADD ####
 // resourceType, resourceName, template, destName, dest, options, callback
 
 // component
-lrrr.add('component', null, null, null, 'tmp', { view: true, controller: true }, function (err, status) {
-    if (err) {
-        return console.log(err);
-    }
+// lrrr.add('component', null, null, null, 'tmp', { view: true, controller: true }, function (err, status) {
+//     if (err) {
+//         return console.log(err);
+//     }
 
-    console.log(status);
-});
+//     console.log(status);
+// });
 
 // model
 // lrrr.add('model', null, null, null, 'tmp', { syncher: true }, function (err, status) {
@@ -39,3 +38,14 @@ lrrr.add('component', null, null, null, 'tmp', { view: true, controller: true },
 
 //     console.log(status);
 // });
+
+// #### CREATE ####
+// resourceType, resourceName, template, destName, dest, options, callback
+
+lrrr.create('app', null, null, null, 'tmp/foobar', null, function (err, status) {
+    if (err) {
+        return console.log(err);
+    }
+
+    console.log(status);
+});
