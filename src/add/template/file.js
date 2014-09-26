@@ -10,7 +10,7 @@ var fse = require('fs-extra');
 function copyTemplate(src, dest, callback) {
     fse.copy(src, dest, { clobber: true }, function (err) {
         if (err) {
-            callback(err, null);
+            return callback(err, null);
         }
 
         callback(null, true);
@@ -37,7 +37,7 @@ module.exports = function (template, callback) {
 
             var templateConfPath = path.normalize(tmpDestPath + path.sep + 'lrrr.json');
             fs.exists(templateConfPath, function (exists) {
-                var destPath = path.normalize(utils.LRRR_PATH + path.sep + 'templates');
+                var destPath = path.resolve(utils.LRRR_PATH + path.sep + 'templates');
                 var conf = {};
 
                 if (exists) {

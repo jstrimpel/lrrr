@@ -56,7 +56,7 @@ module.exports = {
         return templateResource.substr(protocol[0].length);
     },
 
-    LRRR_PATH: path.resolve('../'),
+    LRRR_PATH: LRRR_PATH,
 
     protocols: {
         file: 'file',

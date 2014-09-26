@@ -41,11 +41,26 @@ var lrrr = require('../src/index');
 
 // #### CREATE ####
 // resourceType, resourceName, template, destName, dest, options, callback
+// lrrr.create('app', null, null, null, 'tmp/foobar', null, function (err, status) {
+//     if (err) {
+//         return console.log(err);
+//     }
 
-lrrr.create('app', null, null, null, 'tmp/foobar', null, function (err, status) {
+//     console.log(status);
+// });
+
+
+// template
+lrrr.add('template', null, '../../../../lrrr-cli-tests/new-template', null, null, null, function (err, status) {
     if (err) {
         return console.log(err);
     }
 
-    console.log(status);
+    lrrr.create('app', null, null, 'new-template', 'tmp/what', null, function (err, status) {
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log(status);
+    });
 });

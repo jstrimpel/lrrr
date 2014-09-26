@@ -33,7 +33,7 @@ module.exports = function (resourceType, resourceName, template, destName, dest,
                         }
                         copied++;
                         if (copied === len) {
-                            callback(null, true);
+                            callback(null, 'lrrr: \'' + destPath + '\' app created.');
                         }
                     });
                 });

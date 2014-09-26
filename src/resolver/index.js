@@ -76,6 +76,7 @@ var internal = {
             }
         } else if (def || (conf.defaults && conf.defaults.add && conf.defaults.add[resourceType])) {
             def = def || this.getResourceDef(resourceType, conf);
+            def.files = Array.isArray(def.files) ? def.files : [def.files];
             var files = def.files.map(function (pattern) {
                 return path.normalize(templatePath + path.sep + utils.getResourceTypeDirName(resourceType) +
                 (conf.defaults.add[resourceType].def ? (path.sep + conf.defaults.add[resourceType].def) : '') +

@@ -18,7 +18,7 @@ module.exports = function (resourceType, resourceName, options, template, destNa
                     return callback(err, null);
                 }
 
-                callback(null, success);
+                callback(null, 'lrrr: \'' + destPath + '\' ' + resourceType + ' added.');
             });
         });
     });
