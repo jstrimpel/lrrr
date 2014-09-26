@@ -4,8 +4,6 @@ var path = require('path');
 var fse = require('fs-extra');
 var glob = require('glob');
 var dest = 'test' + path.sep + 'tmp';
-var utils = require('../../utils');
-
 
 // resourceType, resourceName, template, destName, dest, options, callback
 describe('create', function () {
@@ -18,6 +16,8 @@ describe('create', function () {
                 throw err;
             }
 
+            expected = 0;
+            completed = 0;
             done();
         });
     });
@@ -32,7 +32,10 @@ describe('create', function () {
                 files = files.map(function (file) {
                     return file.replace('test' + path.sep + 'tmp' + path.sep, '');
                 });
-                utils.verifyDefaultTemplateList(chai, files);
+                chai.expect(files.length).to.be.equal(3);
+                chai.expect(files[0]).to.be.equal('app/app.json');
+                chai.expect(files[1]).to.be.equal('app/application.js');
+                chai.expect(files[2]).to.be.equal('components/hello/views/index.hbs');
                 done();
             });
         });

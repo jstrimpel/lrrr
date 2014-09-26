@@ -4,7 +4,6 @@ var path = require('path');
 var fse = require('fs-extra');
 var glob = require('glob');
 var dest = 'test' + path.sep + 'tmp';
-var utils = require('../../utils');
 
 try {
     var lrrrPath = require.resolve('lrrr').split(path.sep).slice(0, -2).join(path.sep);
@@ -32,11 +31,10 @@ describe('resolver', function () {
                 throw err;
             }
 
+            expected = 0;
+            completed = 0;
             done();
         });
-
-        expected = 0;
-        completed = 0;
     });
 
     it('should get a template path', function (done) {

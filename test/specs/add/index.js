@@ -4,11 +4,19 @@ var path = require('path');
 var fse = require('fs-extra');
 var glob = require('glob');
 var dest = 'test' + path.sep + 'tmp';
-var utils = require('../../utils');
-
 
 // resourceType, resourceName, template, destName, dest, options, callback
 describe('add', function () {
+
+    var expected = 0;
+    var completed = 0;
+
+    function onDone (done) {
+        completed++;
+        if (expected === completed) {
+            done();
+        }
+    }
 
     beforeEach(function (done) {
         // remove default template dir to ensure that create command actually
@@ -18,20 +26,14 @@ describe('add', function () {
                 throw err;
             }
 
+            expected = 0;
+            completed = 0;
             done();
         });
     });
 
-    it('should add a component', function (done) {
-        var expected = 4;
-        var count = 0;
-
-        function onDone () {
-            count++;
-            if (expected === count) {
-                done();
-            }
-        }
+    it.skip('should add a component', function (done) {
+        expected = 4;
 
         add('component', null, null, 'foo', 'test/tmp', null, function (err, result) {
             var pattern = dest + path.sep + 'components' + path.sep + 'foo' + path.sep + '**/*.*';
@@ -39,7 +41,7 @@ describe('add', function () {
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(1);
                 chai.expect(files[0]).to.be.equal('test/tmp/components/foo/views/index.hbs');
-                onDone();
+                onDone(done);
             });
         });
 
@@ -52,7 +54,7 @@ describe('add', function () {
                 chai.expect(files[0]).to.be.equal('test/tmp/components/bar/controller.js');
                 chai.expect(files[1]).to.be.equal('test/tmp/components/bar/views/index.hbs');
                 chai.expect(files[2]).to.be.equal('test/tmp/components/bar/views/index.js');
-                onDone();
+                onDone(done);
             });
         });
 
@@ -62,7 +64,7 @@ describe('add', function () {
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(1);
                 chai.expect(files[0]).to.be.equal('test/tmp/components/baz/views/index.hbs');
-                onDone();
+                onDone(done);
             });
         });
 
@@ -75,21 +77,13 @@ describe('add', function () {
                 chai.expect(files[0]).to.be.equal('test/tmp/components/foobar/controller.js');
                 chai.expect(files[1]).to.be.equal('test/tmp/components/foobar/views/index.hbs');
                 chai.expect(files[2]).to.be.equal('test/tmp/components/foobar/views/index.js');
-                onDone();
+                onDone(done);
             });
         });
     });
 
     it('should add a model', function (done) {
-        var expected = 4;
-        var count = 0;
-
-        function onDone () {
-            count++;
-            if (expected === count) {
-                done();
-            }
-        }
+        expected = 4;
 
         add('model', null, null, 'foo', 'test/tmp', null, function (err, result) {
             var pattern = dest + path.sep + 'models' + path.sep + 'foo' + path.sep + '**/*.*';
@@ -98,7 +92,7 @@ describe('add', function () {
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(1);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/foo/model.js');
-                onDone();
+                onDone(done);
             });
         });
 
@@ -110,7 +104,7 @@ describe('add', function () {
                 chai.expect(files.length).to.be.equal(2);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/bar/model.js');
                 chai.expect(files[1]).to.be.equal('test/tmp/models/bar/server/syncher.js');
-                onDone();
+                onDone(done);
             });
         });
 
@@ -121,7 +115,7 @@ describe('add', function () {
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(1);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/baz/model.js');
-                onDone();
+                onDone(done);
             });
         });
 
@@ -133,21 +127,13 @@ describe('add', function () {
                 chai.expect(files.length).to.be.equal(2);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/foobar/model.js');
                 chai.expect(files[1]).to.be.equal('test/tmp/models/foobar/server/syncher.js');
-                onDone();
+                onDone(done);
             });
         });
     });
 
     it('should add a collection', function (done) {
-        var expected = 4;
-        var count = 0;
-
-        function onDone () {
-            count++;
-            if (expected === count) {
-                done();
-            }
-        }
+        expected = 4;
 
         add('collection', null, null, 'foo', 'test/tmp', null, function (err, result) {
             var pattern = dest + path.sep + 'models' + path.sep + 'foo' + path.sep + '**/*.*';
@@ -156,7 +142,7 @@ describe('add', function () {
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(1);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/foo/collection.js');
-                onDone();
+                onDone(done);
             });
         });
 
@@ -168,7 +154,7 @@ describe('add', function () {
                 chai.expect(files.length).to.be.equal(2);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/bar/collection.js');
                 chai.expect(files[1]).to.be.equal('test/tmp/models/bar/server/syncher.js');
-                onDone();
+                onDone(done);
             });
         });
 
@@ -179,7 +165,7 @@ describe('add', function () {
             glob(pattern, null, function (err, files) {
                 chai.expect(files.length).to.be.equal(1);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/baz/collection.js');
-                onDone();
+                onDone(done);
             });
         });
 
@@ -191,7 +177,7 @@ describe('add', function () {
                 chai.expect(files.length).to.be.equal(2);
                 chai.expect(files[0]).to.be.equal('test/tmp/models/foobar/collection.js');
                 chai.expect(files[1]).to.be.equal('test/tmp/models/foobar/server/syncher.js');
-                onDone();
+                onDone(done);
             });
         });
 
