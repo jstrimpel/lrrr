@@ -43,19 +43,18 @@ The features described in this document will be released as follows.
 
 #### 0.2.0
 
-* `file://` support for local templates
-* `lrrr.json` dependencies support
-* Supported commands: 0.1.0 commands + `add util`
+* `file://` protocol support for adding templates
+* Supported commands: 0.1.0 commands + `add template`
 * Finalized `lrrr.json` contract
 
 #### 0.3.0
 
-* `git://` support for github.com
+* `git://` protocol support for adding templates
+* `lrrr.json` dependencies support
 
 #### 0.4.0
 
-* `http(s)://` support hosted templates
-* Internal `git://` support
+* `http(s)://` protocol support for adding templates
 
 #### 0.5.0
 
