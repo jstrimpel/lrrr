@@ -1,6 +1,6 @@
 {
     "name": "lrrr",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "description": "A command line utility for quickly creating LazoJS applications",
     "homepage": "https://github.com/jstrimpel/lrrr",
     "keywords": [
