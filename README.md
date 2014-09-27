@@ -41,11 +41,12 @@ The features described in this document will be released as follows.
 * CLI
 * Supported commands: `create app`, `add component`, `add model`, `add collection`
 
-#### 0.2.0
+#### 0.2.0 - _*RELEASED*_
 
 * `file://` protocol support for adding templates
 * Supported commands: 0.1.0 commands + `add template`
 * Finalized `lrrr.json` contract
+* -r resource name support for specifying template component, model, or collection
 
 #### 0.3.0
 
